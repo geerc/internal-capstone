@@ -6,3 +6,4 @@ df_cities = pd.read_csv("data/Cities.csv")
 
 
 print(df_mens)
+print(df_cities)
