@@ -2,6 +2,7 @@ import pandas as pd
 
 # import data
 data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
+tourneyData = pd.read_csv('data/MNCAATourneyCompactResults.csv')
 
 # subset to only winning and losing teams
 wTeams = data[['Season', 'WTeamID','WScore','LScore','WFGM','WFGA','WFGM3','WFTM','WFTA','WOR','WDR','WAst','WTO','WStl','WBlk','WPF']]
@@ -23,7 +24,15 @@ concat_data = concat_data.reset_index(drop=True)
 
 # Agg statistics by team
 grouped = concat_data.groupby(by=['Season','TeamID']).mean().round(2)
-print(grouped)
+
+# remove years before 2003
+tourneyData = tourneyData[tourneyData['Season'] > 2002]
+
+# Agg team tournament wins by season
+tourneyData = tourneyData.groupby(by=['Season','WTeamID']).count()
+tourneyData = tourneyData[['Season', 'WTeamID','DayNum']]
+# tourneyData = tourneyData.rename(columns={'DayNum':'NumWins'})
+print(tourneyData)
 
 # write to csv
-grouped.to_csv('data/TeamSeasonAverages.csv')
+# grouped.to_csv('data/TeamSeasonAverages.csv')
