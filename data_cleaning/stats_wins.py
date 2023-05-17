@@ -7,3 +7,6 @@ tourn_wins = pd.read_csv('cleaned_data/tournament_wins.csv')
 
 # join the two data tables
 combined = season_stats.merge(tourn_wins, how='right', on=['TeamID','Season'])
+
+# write to csv
+combined.to_csv('cleaned_data/final_data.csv')
