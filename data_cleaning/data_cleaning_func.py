@@ -56,6 +56,6 @@ def clean_tourn_data(raw_tourney, raw_teams)
     full_teams = full_teams.astype({'Wins':'int'})
     # print(full_teams)
 
-    # write to csv)
+    # write to csv
     # full_teams.to_csv('cleaned_data/tournament_wins.csv')
     return  full_teams
