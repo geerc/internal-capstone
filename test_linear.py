@@ -18,7 +18,7 @@ data = combining_data(cleaned_season, cleaned_tourn)
 
 # Select the relevant features and the target variable
 print('Selecting features')
-features = data[['PointScored', 'PointAllow', 'FGM', 'FGA', 'FGM3', 'FTM', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
+features = data[['Seed', 'PointScored', 'PointAllow', 'FGM', 'FGA', 'FGM3', 'FTM', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
 target = data['Wins']
 
 # Split the data into training and testing sets
