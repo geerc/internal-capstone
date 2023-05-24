@@ -62,7 +62,7 @@ def clean_tourn_data(raw_tourney, raw_teams):
 
 def combining_data(cleaned_season, cleaned_tourn_wins):
     # join the two data tables
-    combined = cleaned_season.merge(cleaned_tourn_wins), how='right', on=['TeamID','Season'])
+    combined = cleaned_season.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
 
     # remove extra index col from merge
     combined = combined.drop(columns=['Unnamed: 0'])
