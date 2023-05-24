@@ -26,7 +26,7 @@ def clean_season_data(raw_data):
     grouped = concat_data.groupby(by=['Season','TeamID']).mean().round(2)
 
     # write to csv
-    # grouped.to_csv('cleaned_data/TeamSeasonAverages.csv')
+    grouped.to_csv('cleaned_data/TeamSeasonAverages.csv')
 
     return grouped
 
@@ -57,7 +57,8 @@ def clean_tourn_data(raw_tourney, raw_teams):
     # print(full_teams)
 
     # write to csv
-    # full_teams.to_csv('cleaned_data/tournament_wins.csv')
+    full_teams.to_csv('cleaned_data/tournament_wins.csv')
+
     return  full_teams
 
 def combining_data(cleaned_season, cleaned_tourn_wins):
@@ -68,5 +69,6 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     # combined = combined.drop(columns=['Unnamed: 0'])
 
     # write to csv
-    # combined.to_csv('cleaned_data/final_data.csv')
+    combined.to_csv('cleaned_data/final_data.csv')
+    
     return combined
