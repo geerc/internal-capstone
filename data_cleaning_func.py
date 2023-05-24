@@ -65,7 +65,7 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     combined = cleaned_season.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
 
     # remove extra index col from merge
-    combined = combined.drop(columns=['Unnamed: 0'])
+    # combined = combined.drop(columns=['Unnamed: 0'])
 
     # write to csv
     # combined.to_csv('cleaned_data/final_data.csv')
