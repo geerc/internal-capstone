@@ -30,4 +30,32 @@ def clean_season_data(raw_data):
 
     return grouped
 
-def clean_tourn_data(raw_data)
+def clean_tourn_data(raw_tourney, raw_teams)
+    # reatain only necessary columns
+    raw_teams = raw_teams[['Season','TeamID']]
+    # remove data before 2003 (no season data) and data for 2023 (no tourney data)
+    raw_teams = raw_teams[(raw_teams['Season'] >= 2003) & (raw_teams['Season'] < 2023)]
+
+    # remove data before 2003 (no season data) and data for 2023 (no tourney data)
+    raw_tourney = raw_tourney[(raw_tourney['Season'] >= 2003) & (raw_tourney['Season'] < 2023)]
+    # Retain only necessary columns
+    raw_tourney = raw_tourney[['Season', 'WTeamID','WScore']]
+
+    # group by season and winning team, provides count of all teams wins in tournament year
+    grouped = raw_tourney.groupby(by=['Season', 'WTeamID']).count()
+    # rename column
+    grouped = grouped.rename(columns={'WScore':'Wins'})
+
+    # right join to include teams that had 0 tournament wins
+    full_teams = grouped.merge(raw_teams, how='right', left_on=['Season','WTeamID'], right_on=['Season','TeamID'])
+
+    # fill na with 0
+    full_teams['Wins'] = full_teams['Wins'].fillna(0)
+
+    # cast to float to int for wins
+    full_teams = full_teams.astype({'Wins':'int'})
+    # print(full_teams)
+
+    # write to csv)
+    # full_teams.to_csv('cleaned_data/tournament_wins.csv')
+    return  full_teams
