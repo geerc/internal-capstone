@@ -3,10 +3,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
+from data_cleaning_func import *
 
 
 # Load the data
-data = pd.read_csv('cleaned_data/final_data.csv')
+# data = pd.read_csv('cleaned_data/final_data.csv')
+tourney_data = pd.read_csv('data/MNCAATourneyCompactResults.csv')
+tourney_teams = pd.read_csv('data/MNCAATourneySeeds.csv')
+season_data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
+
+cleaned_season = clean_season_data(season_data)
+cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
+data = combining_data(cleaned_season, cleaned_tourn)
 
 # Select the relevant features and the target variable
 print('Selecting features')
