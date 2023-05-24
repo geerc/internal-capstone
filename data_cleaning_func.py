@@ -31,8 +31,16 @@ def clean_season_data(raw_data):
     return grouped
 
 def clean_tourn_data(raw_tourney, raw_teams):
-    # reatain only necessary columns
-    raw_teams = raw_teams[['Season','TeamID']]
+    # retain only necessary columns
+    # raw_teams = raw_teams[['Season','TeamID']]
+
+    # Remove prefix for region in seed col
+    raw_teams['Seed'] = raw_teams['Seed'].str[1:]
+
+    # remove a and b seed suffixes
+    raw_teams['Seed'] = raw_teams['Seed'].str.removesuffix('a')
+    raw_teams['Seed'] = raw_teams['Seed'].str.removesuffix('b')
+
     # remove data before 2003 (no season data) and data for 2023 (no tourney data)
     raw_teams = raw_teams[(raw_teams['Season'] >= 2003) & (raw_teams['Season'] < 2023)]
 
@@ -59,7 +67,7 @@ def clean_tourn_data(raw_tourney, raw_teams):
     # write to csv
     full_teams.to_csv('cleaned_data/tournament_wins.csv')
 
-    return  full_teams
+    return full_teams
 
 def combining_data(cleaned_season, cleaned_tourn_wins):
     # join the two data tables
@@ -72,3 +80,5 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     combined.to_csv('cleaned_data/final_data.csv')
     
     return combined
+
+# def four_factors(data):
