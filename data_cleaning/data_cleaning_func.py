@@ -30,7 +30,7 @@ def clean_season_data(raw_data):
 
     return grouped
 
-def clean_tourn_data(raw_tourney, raw_teams)
+def clean_tourn_data(raw_tourney, raw_teams):
     # reatain only necessary columns
     raw_teams = raw_teams[['Season','TeamID']]
     # remove data before 2003 (no season data) and data for 2023 (no tourney data)
