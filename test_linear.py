@@ -15,11 +15,18 @@ season_data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
 cleaned_season = clean_season_data(season_data)
 cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
 combined_data = combining_data(cleaned_season, cleaned_tourn)
+four_factor = four_factors(combined_data)
+
+print('Clenaed Season:', cleaned_season)
+print('Cleaned Tourn: ', cleaned_tourn)
+print('Combined Data: ', combined_data)
+print('Four Factor Data: ', four_factor)
+
 
 # Select the relevant features and the target variable
 print('Selecting features')
-features = data[['Seed', 'PointScored', 'PointAllow', 'FGM', 'FGA', 'FGM3', 'FTM', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
-target = data['Wins']
+features = combined_data[['Seed', 'PointScored', 'PointAllow', 'FGM', 'FGA', 'FGM3', 'FTM', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
+target = combined_data['Wins']
 
 # Split the data into training and testing sets
 print('Splitting the Data')

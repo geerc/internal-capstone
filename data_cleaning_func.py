@@ -12,8 +12,8 @@ def clean_season_data(raw_data):
     lTeams = raw_data.drop(columns=['DayNum','WScore','WTeamID','LScore','WLoc','NumOT','WFGA3','WAst','WStl','WBlk','WPF','LFGA3','LAst','LStl','LBlk','LPF'])
 
     # rename columns
-    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'OR','WDR':'DR','WTO':'TO','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
-    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppOR','WDR':'oppDR','WTO':'oppTO','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
+    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WTO':'TO','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
+    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppORB','WDR':'oppDRB','WTO':'oppTO','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
 
     # concatanate together
     frames = [wTeams, lTeams]
@@ -81,6 +81,14 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     
     return combined
 
-# def four_factors(data):
-#     data['oEFG'] = (data['FGM'] + 0.5 * data['FGM3']) / data['FGA']
-#     data['oTO%'] = data['TO'] / (data['FGA'] + 0.44 * data['FTA'] + data['TO'])
+def four_factors(data):
+    data['oEFG%'] = (data['FG'] + 0.5 * data['3P']) / data['FGA']
+    data['dEFG%'] = (data['oppFG'] + 0.5 * data['opp3P']) / data['oppFGA']
+    data['oTO%'] = data['TO'] / (data['FGA'] + 0.44 * data['FTA'] + data['TO'])
+    data['dTO%'] = data['oppTO'] / (data['oppFGA'] + 0.44 * data['oppFTA'] + data['oppTO'])
+    data['Reb%'] = data['ORB'] / (data['ORB'] + data['oppDRB'])
+    data['dReb%'] = data['DRB'] / (data['oppORB'] + data['DRB'])
+    data['FT_rate'] = data['FTA'] / 0.96 * (data['FGA'] + data['TO'] + 0.44*data['FTA'] - data['ORB'])
+    data['dFT_rate'] = data['oppFTA'] / 0.96 * (data['oppFGA'] + data['oppTO'] + 0.44*data['oppFTA'] - data['oppORB'])
+
+    return data[['TeamID'], ['Seed'], ['oEFG%'], ['dEFG%'], ['oTO%'], ['dTO%'], ['Reb%'], ['dReb%'], ['FT_rate'], ['dFT_rate']]
