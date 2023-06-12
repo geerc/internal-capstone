@@ -17,15 +17,16 @@ cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
 combined_data = combining_data(cleaned_season, cleaned_tourn)
 four_factor = four_factors(combined_data)
 
-print('Clenaed Season:', cleaned_season)
-print('Cleaned Tourn: ', cleaned_tourn)
-print('Combined Data: ', combined_data)
-print('Four Factor Data: ', four_factor)
+print('Combined Data:\n', combined_data,)
+print('Four Factor Data:\n', four_factor)
+
+num_nulls = combined_data.isna().sum()
+print(num_nulls)
 
 
 # Select the relevant features and the target variable
 print('Selecting features')
-features = combined_data[['Seed', 'PointScored', 'PointAllow', 'FGM', 'FGA', 'FGM3', 'FTM', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
+features = combined_data[['Seed', 'PointScored', 'PointAllow', 'FG', 'FGA', '3P', 'FT', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
 target = combined_data['Wins']
 
 # Split the data into training and testing sets
@@ -44,6 +45,7 @@ print('Making Predictions')
 y_pred = model.predict(X_test)
 
 # Coefficients
+print('Model Results without Four Factor Data:\n')
 print("Coefficients: \n", model.coef_)
 # Evaluate model using mean squared error
 print('Evaluating Model')
