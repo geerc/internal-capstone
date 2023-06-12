@@ -77,7 +77,7 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     # combined = combined.drop(columns=['Unnamed: 0'])
 
     # removing NaN rows
-    combined.dropna(how='all')
+    combined.dropna(how='any')
 
     # write to csv
     combined.to_csv('cleaned_data/final_data.csv')
