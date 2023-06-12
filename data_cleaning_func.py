@@ -88,8 +88,8 @@ def four_factors(data):
     data['dTO%'] = data['oppTO'] / (data['oppFGA'] + 0.44 * data['oppFTA'] + data['oppTO'])
     data['Reb%'] = data['ORB'] / (data['ORB'] + data['oppDRB'])
     data['dReb%'] = data['DRB'] / (data['oppORB'] + data['DRB'])
-    data['FT_rate'] = data['FTA'] / 0.96 * (data['FGA'] + data['TO'] + 0.44*data['FTA'] - data['ORB'])
-    data['dFT_rate'] = data['oppFTA'] / 0.96 * (data['oppFGA'] + data['oppTO'] + 0.44*data['oppFTA'] - data['oppORB'])
+    data['FT_rate'] = data['FTA'] / data['FGA']
+    data['dFT_rate'] = data['oppFTA'] / data['oppFGA']
 
     data = data[['TeamID','Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
 
