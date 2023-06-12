@@ -6,14 +6,14 @@ def clean_season_data(raw_data):
 
     # subset to only winning and losing teams
 
-    # wTeams = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','WFGA','WFGM3','WFTM','WFTA','WOR','WDR','WAst','WTO','WStl','WBlk','WPF']]
-    # lTeams = raw_data[['Season', 'LTeamID','WScore','LScore','LFGM','LFGA','LFGM3','LFTM','LFTA','LOR','LDR','LAst','LTO','LStl','LBlk','LPF']]
-    wTeams = raw_data.drop(columns=['DayNum','WScore','LTeamID','LScore','WLoc','NumOT','WFGA3','WAst','WStl','WBlk','WPF','LFGA3','LAst','LStl','LBlk','LPF'])
-    lTeams = raw_data.drop(columns=['DayNum','WScore','WTeamID','LScore','WLoc','NumOT','WFGA3','WAst','WStl','WBlk','WPF','LFGA3','LAst','LStl','LBlk','LPF'])
+    wTeams = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WOR','LOR','WDR','LDR','WAst','WTO','LTO','WStl','WBlk','WPF']]
+    lTeams = raw_data[['Season', 'LTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WOR','LOR','WDR','LDR','LAst','WTO','LTO','LStl','LBlk','LPF']]
+    # wTeams = raw_data.drop(columns=['DayNum','LTeamID','WLoc','NumOT','WFGA3','LFGA3'])
+    # lTeams = raw_data.drop(columns=['DayNum','WTeamID','WLoc','NumOT','WFGA3','LFGA3'])
 
     # rename columns
-    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WTO':'TO','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
-    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppORB','WDR':'oppDRB','WTO':'oppTO','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
+    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllow','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','WStl':'Stl','WBlk':'Blk','WPF':'PF','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
+    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllow','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppORB','WDR':'oppDRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBlk':'Blk','LPF':'PF','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
 
     # concatanate together
     frames = [wTeams, lTeams]
@@ -75,6 +75,9 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
 
     # remove extra index col from merge
     # combined = combined.drop(columns=['Unnamed: 0'])
+
+    # removing NaN rows
+    combined.dropna(how='all')
 
     # write to csv
     combined.to_csv('cleaned_data/final_data.csv')
