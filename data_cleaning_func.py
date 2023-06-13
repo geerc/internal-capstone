@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 
 def clean_season_data(raw_data):
     # cut out 2023
@@ -6,14 +8,14 @@ def clean_season_data(raw_data):
 
     # subset to only winning and losing teams
 
-    wTeams = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WOR','LOR','WDR','LDR','WAst','WTO','LTO','WStl','WBlk','WPF']]
-    lTeams = raw_data[['Season', 'LTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WOR','LOR','WDR','LDR','LAst','WTO','LTO','LStl','LBlk','LPF']]
+    wTeams = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WTO','LTO','WOR','LOR','WDR','LDR','WAst','WStl','WBlk','WPF']]
+    lTeams = raw_data[['Season', 'LTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','LTO','WTO','WOR','LOR','WDR','LDR','LAst','LStl','LBlk','LPF']]
     # wTeams = raw_data.drop(columns=['DayNum','LTeamID','WLoc','NumOT','WFGA3','LFGA3'])
     # lTeams = raw_data.drop(columns=['DayNum','WTeamID','WLoc','NumOT','WFGA3','LFGA3'])
 
     # rename columns
-    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllow','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','WStl':'Stl','WBlk':'Blk','WPF':'PF','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
-    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllow','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppORB','WDR':'oppDRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBlk':'Blk','LPF':'PF','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
+    wTeams = wTeams.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllow','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','LTO':'oppTO','WStl':'Stl','WBlk':'Blk','WPF':'PF','LFGM':'oppFG','LFGA':'oppFGA','LFGM3':'opp3P','LFTM':'oppFT','LFTA':'oppFTA','LOR':'oppOR','LDR':'oppDR','LTO':'oppTO'})
+    lTeams = lTeams.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllow','WFGM':'oppFG','WFGA':'oppFGA','WFGM3':'opp3P','WFTM':'oppFT','WFTA':'oppFTA','WOR':'oppORB','WDR':'oppDRB','LAst':'Ast','LTO':'TO','WTO':'oppTO','LStl':'Stl','LBlk':'Blk','LPF':'PF','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFTM':'FT','LFTA':'FTA','LOR':'OR','LDR':'DR','LTO':'TO'})
 
     # concatanate together
     frames = [wTeams, lTeams]
@@ -24,6 +26,15 @@ def clean_season_data(raw_data):
 
     # Agg statistics by team
     grouped = concat_data.groupby(by=['Season','TeamID']).mean().round(2)
+
+    # Replace emtpy data with NaN
+    grouped['oppORB'].replace('', np.nan, inplace=True)
+    grouped['OR'].replace('', np.nan, inplace=True)
+    grouped['oppDRB'].replace('', np.nan, inplace=True)
+    grouped['DR'].replace('', np.nan, inplace=True)
+
+    # Remove empty and NaN rows
+    grouped.dropna(axis=0,how='any')
 
     # write to csv
     grouped.to_csv('cleaned_data/TeamSeasonAverages.csv')
@@ -76,13 +87,15 @@ def combining_data(cleaned_season, cleaned_tourn_wins):
     # remove extra index col from merge
     # combined = combined.drop(columns=['Unnamed: 0'])
 
-    # removing NaN rows
-    combined.dropna(how='any')
+
+    
+    num_nulls = combined.isna().sum()
+
 
     # write to csv
     combined.to_csv('cleaned_data/final_data.csv')
     
-    return combined
+    return combined, num_nulls
 
 def four_factors(data):
     data['oEFG%'] = (data['FG'] + 0.5 * data['3P']) / data['FGA']
