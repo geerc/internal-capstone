@@ -14,14 +14,17 @@ season_data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
 
 cleaned_season = clean_season_data(season_data)
 cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
-combined_data = combining_data(cleaned_season, cleaned_tourn)
+combined_data, func_num_nulls = combining_data(cleaned_season, cleaned_tourn)
 four_factor = four_factors(combined_data)
 
 print('Combined Data:\n', combined_data,)
 print('Four Factor Data:\n', four_factor)
 
 num_nulls = combined_data.isna().sum()
-print(num_nulls)
+print('Nulls in main file: \n', num_nulls, '\n')
+print('Nulls in func: \n', func_num_nulls, '\n')
+
+print('Rows with NaN: \n', combined_data[combined_data.isna().any(axis=1)])
 
 
 # Select the relevant features and the target variable
@@ -37,11 +40,11 @@ X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=
 model = LinearRegression()
 
 # Train model
-print('Training Model')
+print('Training Model \n')
 model.fit(X_train, y_train)
 
 # Make predictions on test set
-print('Making Predictions')
+print('Making Predictions \n')
 y_pred = model.predict(X_test)
 
 # Coefficients
