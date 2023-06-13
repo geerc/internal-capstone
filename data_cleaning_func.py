@@ -81,18 +81,20 @@ def clean_tourn_data(raw_tourney, raw_teams):
 
     return full_teams
 
-def combining_data(cleaned_season, cleaned_tourn_wins):
+def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins):
     # join the two data tables
-    combined = cleaned_season.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
+    combined_FF = cleaned_season_FF.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
+    combined_basic = cleaned_season_basic.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
 
     # remove extra index col from merge
     # combined = combined.drop(columns=['Unnamed: 0'])
 
     # write to csv
-    combined.to_csv('cleaned_data/final_data.csv')
+    combined_FF.to_csv('cleaned_data/final_data_FF.csv')
+    combined_basic.to_csv('cleaned_data/final_data_basic.csv')
     
     # return combined
-    return combined
+    return combined_FF, combined_basic
 
 def four_factors(data):
     data['oEFG%'] = (data['FG'] + 0.5 * data['3P']) / data['FGA']
