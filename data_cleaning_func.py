@@ -10,8 +10,8 @@ def clean_season_data(raw_data):
     wTeams_FF = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WTO','LTO','WOR','LOR','WDR','LDR']]
     lTeams_FF = raw_data[['Season', 'LTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','LTO','WTO','WOR','LOR','WDR','LDR']]
 
-    wTeams_basic = raw_data[['DayNum','LTeamID','WLoc','NumOT','LFGM','LFGA','LFGM3','LFGA3','LFTM','LFTA','LOR','LDR','LAst','LTO','LStl','LBlk','LPF']]
-    lTeams_basic = raw_data[['DayNum','WTeamID','WLoc','NumOT','WFGM','WFGA','WFGM3','WFGA3','WFTM','WFTA','WOR','WDR','WAst','WTO','WStl','WBlk','WPF']]
+    wTeams_basic = raw_data[['Season','LFGM','LFGA','LFGM3','LFGA3','LFTM','LFTA','LOR','LDR','LAst','LTO','LStl','LBlk','LPF']]
+    lTeams_basic = raw_data[['Season','WFGM','WFGA','WFGM3','WFGA3','WFTM','WFTA','WOR','WDR','WAst','WTO','WStl','WBlk','WPF']]
 
     # rename columns
     wTeams_FF = wTeams_FF.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllow','WFGM':'FG','LFGM':'oppFG','WFGA':'FGA','LFGA':'oppFGA','WFGM3':'3P','LFGM3':'opp3P','WFTM':'FT','LFTM':'oppFT','WFTA':'FTA','LFTA':'oppFTA','WOR':'ORB','LOR':'oppORB','WDR':'DRB','LDR':'oppDRB','WTO':'TO','LTO':'oppTO'})
