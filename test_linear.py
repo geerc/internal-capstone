@@ -14,8 +14,8 @@ season_data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
 
 cleaned_season_FF, cleaned_season_basic = clean_season_data(season_data)
 cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
-combined_data = combining_data(cleaned_season_FF, cleaned_tourn)
-four_factor = four_factors(combined_data)
+combined_data_FF, combined_data_basic = combining_data(cleaned_season_FF, cleaned_season_basic, cleaned_tourn)
+four_factor = four_factors(combined_data_FF)
 
 # Select the relevant features and the target variable
 print('Selecting features')
