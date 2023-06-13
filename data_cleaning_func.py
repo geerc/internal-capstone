@@ -17,8 +17,8 @@ def clean_season_data(raw_data):
     wTeams_FF = wTeams_FF.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllow','WFGM':'FG','LFGM':'oppFG','WFGA':'FGA','LFGA':'oppFGA','WFGM3':'3P','LFGM3':'opp3P','WFTM':'FT','LFTM':'oppFT','WFTA':'FTA','LFTA':'oppFTA','WOR':'ORB','LOR':'oppORB','WDR':'DRB','LDR':'oppDRB','WTO':'TO','LTO':'oppTO'})
     lTeams_FF = lTeams_FF.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllow','LFGM':'FG','WFGM':'oppFG','LFGA':'FGA','WFGA':'oppFGA','LFGM3':'3P','WFGM3':'opp3P','LFTM':'FT','WFTM':'oppFT','LFTA':'FTA','WFTA':'oppFTA','LOR':'ORB','WOR':'oppORB','LDR':'DRB','WDR':'oppDRB','LTO':'TO','WTO':'oppTO'})
     
-    wTeams_basic = wTeams_basic.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllowed','WFGM':'FGM','WFGA':'FGA','WFGM3':'3P','WFGA3':'3PA','WFTM':'FTM','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','WStl':'Stl','WBLK':'Blk','WPF':'PF'})
-    wTeams_basic = wTeams_basic.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllowed','LFGM':'FGM','LFGA':'FGA','LFGM3':'3P','LFGA3':'3PA','LFTM':'FTM','LFTA':'FTA','LOR':'ORB','LDR':'DRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBLK':'Blk','LPF':'PF'})
+    wTeams_basic = wTeams_basic.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllowed','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFGA3':'3PA','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','WStl':'Stl','WBLK':'Blk','WPF':'PF'})
+    wTeams_basic = wTeams_basic.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllowed','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFGA3':'3PA','LFTM':'FT','LFTA':'FTA','LOR':'ORB','LDR':'DRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBLK':'Blk','LPF':'PF'})
 
     # concatanate together
     frames = (wTeams_FF, lTeams_FF)
