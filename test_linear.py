@@ -19,8 +19,8 @@ four_factor = four_factors(combined_data_FF)
 
 # Select the relevant features and the target variable
 print('Selecting features')
-features = combined_data[['Seed', 'PointScored', 'PointAllow', 'FG', 'FGA', '3P', 'FT', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
-target = combined_data['Wins']
+features = combined_data_basic[['Seed', 'PointScored', 'PointAllow', 'FG', 'FGA', '3P', 'FT', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
+target = combined_data_basic['Wins']
 
 # Split the data into training and testing sets
 print('Splitting the Data')
