@@ -12,20 +12,10 @@ tourney_data = pd.read_csv('data/MNCAATourneyCompactResults.csv')
 tourney_teams = pd.read_csv('data/MNCAATourneySeeds.csv')
 season_data = pd.read_csv('data/MRegularSeasonDetailedResults.csv')
 
-cleaned_season = clean_season_data(season_data)
+cleaned_season_FF, cleaned_season_basic = clean_season_data(season_data)
 cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
-combined_data, func_num_nulls = combining_data(cleaned_season, cleaned_tourn)
+combined_data = combining_data(cleaned_season_FF, cleaned_tourn)
 four_factor = four_factors(combined_data)
-
-print('Combined Data:\n', combined_data,)
-print('Four Factor Data:\n', four_factor)
-
-num_nulls = combined_data.isna().sum()
-print('Nulls in main file: \n', num_nulls, '\n')
-print('Nulls in func: \n', func_num_nulls, '\n')
-
-print('Rows with NaN: \n', combined_data[combined_data.isna().any(axis=1)])
-
 
 # Select the relevant features and the target variable
 print('Selecting features')
@@ -49,11 +39,14 @@ y_pred = model.predict(X_test)
 
 # Coefficients
 print('Model Results without Four Factor Data:\n')
+
 print("Coefficients: \n", model.coef_)
+
 # Evaluate model using mean squared error
 print('Evaluating Model')
 mse = mean_squared_error(y_test, y_pred)
 print('Mean Squared Error:', mse)
+
 #Coefficient of Determination
 print("Coefficient of determination: %.2f" % r2_score(y_test, y_pred))
 
