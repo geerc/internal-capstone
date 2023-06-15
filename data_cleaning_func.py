@@ -18,7 +18,7 @@ def clean_season_data(raw_data):
     lTeams_FF = lTeams_FF.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllow','LFGM':'FG','WFGM':'oppFG','LFGA':'FGA','WFGA':'oppFGA','LFGM3':'3P','WFGM3':'opp3P','LFTM':'FT','WFTM':'oppFT','LFTA':'FTA','WFTA':'oppFTA','LOR':'ORB','WOR':'oppORB','LDR':'DRB','WDR':'oppDRB','LTO':'TO','WTO':'oppTO'})
     
     wTeams_basic = wTeams_basic.rename(columns={'WTeamID':'TeamID','WScore':'PointScored','LScore':'PointAllowed','WFGM':'FG','WFGA':'FGA','WFGM3':'3P','WFGA3':'3PA','WFTM':'FT','WFTA':'FTA','WOR':'ORB','WDR':'DRB','WAst':'Ast','WTO':'TO','WStl':'Stl','WBLK':'Blk','WPF':'PF'})
-    wTeams_basic = wTeams_basic.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllowed','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFGA3':'3PA','LFTM':'FT','LFTA':'FTA','LOR':'ORB','LDR':'DRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBLK':'Blk','LPF':'PF'})
+    lTeams_basic = lTeams_basic.rename(columns={'LTeamID':'TeamID','LScore':'PointScored','WScore':'PointAllowed','LFGM':'FG','LFGA':'FGA','LFGM3':'3P','LFGA3':'3PA','LFTM':'FT','LFTA':'FTA','LOR':'ORB','LDR':'DRB','LAst':'Ast','LTO':'TO','LStl':'Stl','LBLK':'Blk','LPF':'PF'})
 
     # concatanate together
     frames = (wTeams_FF, lTeams_FF)
@@ -30,7 +30,6 @@ def clean_season_data(raw_data):
     # rest index
     concat_data_FF = concat_data_FF.reset_index(drop=True)
     concat_data_basic = concat_data_basic.reset_index(drop=True)
-
 
     # Agg statistics by team
     grouped_FF = concat_data_FF.groupby(by=['Season','TeamID']).mean().round(2)
