@@ -89,7 +89,7 @@ def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins):
     # combined = combined.drop(columns=['Unnamed: 0'])
 
     # write to csv
-    combined_FF.to_csv('cleaned_data/final_data_FF.csv')
+    combined_FF.to_csv('cleaned_data/combined_data_FF.csv')
     combined_basic.to_csv('cleaned_data/final_data_basic.csv')
     
     # return combined
@@ -107,4 +107,5 @@ def four_factors(data):
 
     data = data[['TeamID','Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
 
+    data.to_csv('cleaned_data/final_data_FF')
     return data
