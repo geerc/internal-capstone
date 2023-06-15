@@ -48,7 +48,7 @@ def clean_season_data(raw_data, pred):
     # return grouped_FF, grouped_basic
     return grouped_FF, grouped_basic
 
-def clean_tourn_data(raw_tourney, raw_teams):
+def clean_tourn_data(raw_tourney, raw_teams, pred):
     # retain only necessary columns
     # raw_teams = raw_teams[['Season','TeamID']]
 
@@ -60,10 +60,17 @@ def clean_tourn_data(raw_tourney, raw_teams):
     raw_teams['Seed'] = raw_teams['Seed'].str.removesuffix('b')
 
     # remove data before 2003 (no season data) and data for 2023 (no tourney data)
-    raw_teams = raw_teams[(raw_teams['Season'] >= 2003) & (raw_teams['Season'] < 2023)]
+    if pred == False:
+        raw_teams = raw_teams[(raw_teams['Season'] >= 2003) & (raw_teams['Season'] < 2023)]
 
-    # remove data before 2003 (no season data) and data for 2023 (no tourney data)
-    raw_tourney = raw_tourney[(raw_tourney['Season'] >= 2003) & (raw_tourney['Season'] < 2023)]
+        # remove data before 2003 (no season data) and data for 2023 (no tourney data)
+        raw_tourney = raw_tourney[(raw_tourney['Season'] >= 2003) & (raw_tourney['Season'] < 2023)]
+    elif pred == True:
+        raw_teams = raw_teams[(raw_teams['Season'] == 2023)]
+
+        # remove data before 2003 (no season data) and data for 2023 (no tourney data)
+        raw_tourney = raw_tourney[(raw_tourney['Season'] == 2023)]
+
     # Retain only necessary columns
     raw_tourney = raw_tourney[['Season', 'WTeamID','WScore']]
 
@@ -81,8 +88,11 @@ def clean_tourn_data(raw_tourney, raw_teams):
     # cast to float to int for wins
     full_teams = full_teams.astype({'Wins':'int'})
 
-    # write to csv
-    full_teams.to_csv('cleaned_data/tournament_wins.csv')
+    if pred == False:
+        # write to csv
+        full_teams.to_csv('cleaned_data/tournament_wins.csv')
+    elif pred == True:
+        pass
 
     return full_teams
 
