@@ -2,9 +2,12 @@ import pandas as pd
 import numpy as np
 
 
-def clean_season_data(raw_data):
-    # cut out 2023
-    raw_data = raw_data[raw_data['Season'] != 2023]
+def clean_season_data(raw_data, pred):
+    if pred == False:
+        # cut out 2023
+        raw_data = raw_data[raw_data['Season'] != 2023]
+    elif pred == True:
+        pass
 
     # subset to only winning and losing teams
     wTeams_FF = raw_data[['Season', 'WTeamID','WScore','LScore','WFGM','LFGM','WFGA','LFGA','WFGM3','LFGM3','WFTM','LFTM','WFTA','LFTA','WTO','LTO','WOR','LOR','WDR','LDR']]
