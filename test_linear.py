@@ -17,8 +17,8 @@ cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
 combined_data_FF, combined_data_basic = combining_data(cleaned_season_FF, cleaned_season_basic, cleaned_tourn)
 four_factor = four_factors(combined_data_FF)
 
-print('conbined_data_basic: \n', combined_data_basic)
-
+# BASIC LINEAR REGRESSION
+print('STARTING BASIC LINEAR REGRESSION')
 # Select the relevant features and the target variable
 print('Selecting features')
 features = combined_data_basic[['Seed', 'PointScored', 'PointAllowed', 'FG', 'FGA', '3P', 'FT', 'FTA', 'ORB', 'DRB', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
@@ -46,17 +46,48 @@ print("Coefficients: \n", model.coef_)
 
 # Evaluate model using mean squared error
 print('Evaluating Model')
-mse = mean_squared_error(y_test, y_pred)
-print('Mean Squared Error:', mse)
+print('Mean Squared Error:', mean_squared_error(y_test, y_pred))
+print('R2: ', r2_score(y_test, y_pred).round(2))
+
 
 #Coefficient of Determination
-print("Coefficient of determination: %.2f" % r2_score(y_test, y_pred))
+# print("Coefficient of determination: %.2f" % r2_score(y_test, y_pred))
 
 # Plot outputs
 plt.scatter(y_test, y_pred, color="black")
 # plt.plot(X_test, y_pred, color="blue", linewidth=3)
 plt.show
 
+# FOUR FACTOR LINEAR REGRESSION
+print('STARTING FOUR FACTOR LINEAR REGRESSION')
+print('Selecting features')
+features = combined_data_FF[['Seed', ]]
+target = combined_data_basic['Wins']
+
+# Split the data into training and testing sets
+print('Splitting the Data')
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+
+# Create linear regression model
+model = LinearRegression()
+
+# Train model
+print('Training Model \n')
+model.fit(X_train, y_train)
+
+# Make predictions on test set
+print('Making Predictions \n')
+y_pred = model.predict(X_test)
+
+# Coefficients
+print('Model Results without Four Factor Data:\n')
+
+print("Coefficients: \n", model.coef_)
+
+# Evaluate model using mean squared error
+print('Evaluating Model')
+print('Mean Squared Error:', mean_squared_error(y_test, y_pred))
+print('R2: ', r2_score(y_test, y_pred).round(2))
 # # Use trained model to make predictions on new data
 # new_data = pd.DataFrame({'PointScored': [], 'PointAllow': [], 'FGM': [], 'FGA': [], 'FGM3': [], 'FTM': [], 'FTA': [], 'OR': [], 'DR': [], 'Ast': [], 'TO': [], 'Stl': [], 'Blk': [], 'PF': []})
 # new_prediction = model.predict(new_data)
