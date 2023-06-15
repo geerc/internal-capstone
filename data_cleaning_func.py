@@ -105,7 +105,7 @@ def four_factors(data):
     data['FT_rate'] = data['FTA'] / data['FGA']
     data['dFT_rate'] = data['oppFTA'] / data['oppFGA']
 
-    data = data[['TeamID','Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
+    data = data[['TeamID','Wins','Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
 
     data.to_csv('cleaned_data/final_data_FF')
     return data
