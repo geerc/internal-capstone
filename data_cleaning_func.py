@@ -39,8 +39,11 @@ def clean_season_data(raw_data, pred):
     grouped_basic = concat_data_basic.groupby(by=['Season','TeamID']).mean().round(2)
 
     # write to csv
-    grouped_FF.to_csv('cleaned_data/TeamSeasonAveragesFF.csv')
-    grouped_basic.to_csv('cleaned_data/TeamSeasonAveragesBasic.csv')
+    if pred == False:
+        grouped_FF.to_csv('cleaned_data/TeamSeasonAveragesFF.csv')
+        grouped_basic.to_csv('cleaned_data/TeamSeasonAveragesBasic.csv')
+    elif pred == True:
+        pass
 
     # return grouped_FF, grouped_basic
     return grouped_FF, grouped_basic
