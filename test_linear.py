@@ -61,8 +61,8 @@ plt.show
 # FOUR FACTOR LINEAR REGRESSION
 print('STARTING FOUR FACTOR LINEAR REGRESSION')
 print('Selecting features')
-features = combined_data_FF[['Seed', ]]
-target = combined_data_basic['Wins']
+features = four_factor[['Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
+target = four_factor['Wins']
 
 # Split the data into training and testing sets
 print('Splitting the Data')
