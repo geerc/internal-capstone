@@ -96,7 +96,7 @@ def clean_tourn_data(raw_tourney, raw_teams, pred):
 
     return full_teams
 
-def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins):
+def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins, pred):
     # join the two data tables
     combined_FF = cleaned_season_FF.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
     combined_basic = cleaned_season_basic.merge(cleaned_tourn_wins, how='right', on=['TeamID','Season'])
@@ -104,9 +104,12 @@ def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins):
     # remove extra index col from merge
     # combined = combined.drop(columns=['Unnamed: 0'])
 
-    # write to csv
-    combined_FF.to_csv('cleaned_data/combined_data_FF.csv')
-    combined_basic.to_csv('cleaned_data/final_data_basic.csv')
+    if pred == False:
+        # write to csv
+        combined_FF.to_csv('cleaned_data/combined_data_FF.csv')
+        combined_basic.to_csv('cleaned_data/final_data_basic.csv')
+    if pred == True:
+        pass
     
     # return combined
     return combined_FF, combined_basic
