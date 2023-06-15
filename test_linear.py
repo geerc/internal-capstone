@@ -17,9 +17,11 @@ cleaned_tourn = clean_tourn_data(tourney_data, tourney_teams)
 combined_data_FF, combined_data_basic = combining_data(cleaned_season_FF, cleaned_season_basic, cleaned_tourn)
 four_factor = four_factors(combined_data_FF)
 
+print('conbined_data_basic: \n', combined_data_basic)
+
 # Select the relevant features and the target variable
 print('Selecting features')
-features = combined_data_basic[['Seed', 'PointScored', 'PointAllow', 'FG', 'FGA', '3P', 'FT', 'FTA', 'OR', 'DR', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
+features = combined_data_basic[['Seed', 'PointScored', 'PointAllowed', 'FG', 'FGA', '3P', 'FT', 'FTA', 'ORB', 'DRB', 'Ast', 'TO', 'Stl', 'Blk', 'PF']]
 target = combined_data_basic['Wins']
 
 # Split the data into training and testing sets
