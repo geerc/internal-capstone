@@ -59,7 +59,7 @@ plt.scatter(y_test, y_pred, color="black")
 plt.show
 
 # FOUR FACTOR LINEAR REGRESSION
-print('STARTING FOUR FACTOR LINEAR REGRESSION')
+print('\nSTARTING FOUR FACTOR LINEAR REGRESSION')
 print('Selecting features')
 features = four_factor[['Seed','oEFG%','dEFG%','oTO%','dTO%','Reb%','dReb%','FT_rate','dFT_rate']]
 target = four_factor['Wins']
@@ -80,7 +80,7 @@ print('Making Predictions \n')
 y_pred = model.predict(X_test)
 
 # Coefficients
-print('Model Results without Four Factor Data:\n')
+print('Model Results with Four Factor Data:\n')
 
 print("Coefficients: \n", model.coef_)
 
@@ -88,7 +88,12 @@ print("Coefficients: \n", model.coef_)
 print('Evaluating Model')
 print('Mean Squared Error:', mean_squared_error(y_test, y_pred))
 print('R2: ', r2_score(y_test, y_pred).round(2))
-# # Use trained model to make predictions on new data
-# new_data = pd.DataFrame({'PointScored': [], 'PointAllow': [], 'FGM': [], 'FGA': [], 'FGM3': [], 'FTM': [], 'FTA': [], 'OR': [], 'DR': [], 'Ast': [], 'TO': [], 'Stl': [], 'Blk': [], 'PF': []})
-# new_prediction = model.predict(new_data)
-# print('Predicted Regular Season Wins:', new_prediction)
+
+
+# Use trained models to make predictions on new data
+
+_2023 = season_data[season_data['Season'] == 2023]
+print(_2023)
+
+new_prediction = model.predict(new_data)
+print('Predicted Regular Season Wins:', new_prediction)
