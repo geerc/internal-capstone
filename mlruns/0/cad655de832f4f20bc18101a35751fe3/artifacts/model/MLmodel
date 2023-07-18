@@ -1,0 +1,29 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.2.2
+mlflow_version: 2.3.1
+model_uuid: 96bb8bc629fe45f3beb450e478a737ee
+run_id: cad655de832f4f20bc18101a35751fe3
+signature:
+  inputs: '[{"name": "Seed", "type": "string"}, {"name": "PointScored", "type": "double"},
+    {"name": "PointAllowed", "type": "double"}, {"name": "FG", "type": "double"},
+    {"name": "FGA", "type": "double"}, {"name": "3P", "type": "double"}, {"name":
+    "3PA", "type": "double"}, {"name": "FT", "type": "double"}, {"name": "FTA", "type":
+    "double"}, {"name": "ORB", "type": "double"}, {"name": "DRB", "type": "double"},
+    {"name": "Ast", "type": "double"}, {"name": "TO", "type": "double"}, {"name":
+    "Stl", "type": "double"}, {"name": "Blk", "type": "double"}, {"name": "PF", "type":
+    "double"}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1]}}]'
+utc_time_created: '2023-07-06 14:45:33.438119'

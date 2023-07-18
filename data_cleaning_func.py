@@ -49,52 +49,48 @@ def clean_season_data(raw_data, pred):
     return grouped_FF, grouped_basic
 
 def clean_tourn_data(raw_tourney, raw_teams, pred):
-    # retain only necessary columns
-    # raw_teams = raw_teams[['Season','TeamID']]
+    teams = raw_teams.copy()
 
     # Remove prefix for region in seed col
-    raw_teams['Seed'] = raw_teams['Seed'].str[1:]
+    teams['Seed'] = teams['Seed'].str[1:]
 
     # remove a and b seed suffixes
-    raw_teams['Seed'] = raw_teams['Seed'].str.removesuffix('a')
-    raw_teams['Seed'] = raw_teams['Seed'].str.removesuffix('b')
+    teams['Seed'] = teams['Seed'].str.removesuffix('a')
+    teams['Seed'] = teams['Seed'].str.removesuffix('b')
 
     # remove data before 2003 (no season data) and data for 2023 (no tourney data)
     if pred == False:
-        raw_teams = raw_teams[(raw_teams['Season'] >= 2003) & (raw_teams['Season'] < 2023)]
+        # remove data before 2003 (no season data) and data for 2023 (no tourney data)
+        teams = teams[(teams['Season'] >= 2003) & (teams['Season'] < 2023)]
 
         # remove data before 2003 (no season data) and data for 2023 (no tourney data)
-        raw_tourney = raw_tourney[(raw_tourney['Season'] >= 2003) & (raw_tourney['Season'] < 2023)]
-    elif pred == True:
-        raw_teams = raw_teams[(raw_teams['Season'] == 2023)]
+        tourney = raw_tourney[(raw_tourney['Season'] >= 2003) & (raw_tourney['Season'] < 2023)]
 
-        # remove data before 2003 (no season data) and data for 2023 (no tourney data)
-        raw_tourney = raw_tourney[(raw_tourney['Season'] == 2023)]
+        # Retain only necessary columns
+        tourney = tourney[['Season', 'WTeamID','WScore']]
 
-    # Retain only necessary columns
-    raw_tourney = raw_tourney[['Season', 'WTeamID','WScore']]
+        # group by season and winning team, provides count of all teams wins in tournament year
+        grouped = tourney.groupby(by=['Season', 'WTeamID']).count()
+        # rename column
+        grouped = grouped.rename(columns={'WScore':'Wins'})
 
-    # group by season and winning team, provides count of all teams wins in tournament year
-    grouped = raw_tourney.groupby(by=['Season', 'WTeamID']).count()
-    # rename column
-    grouped = grouped.rename(columns={'WScore':'Wins'})
+        # right join to include teams that had 0 tournament wins
+        full_teams = grouped.merge(teams, how='right', left_on=['Season','WTeamID'], right_on=['Season','TeamID'])
 
-    # right join to include teams that had 0 tournament wins
-    full_teams = grouped.merge(raw_teams, how='right', left_on=['Season','WTeamID'], right_on=['Season','TeamID'])
+        # fill na with 0
+        full_teams['Wins'] = full_teams['Wins'].fillna(0)
 
-    # fill na with 0
-    full_teams['Wins'] = full_teams['Wins'].fillna(0)
+        # cast to int for wins
+        full_teams = full_teams.astype({'Wins':'int'})
 
-    # cast to float to int for wins
-    full_teams = full_teams.astype({'Wins':'int'})
-
-    if pred == False:
-        # write to csv
         full_teams.to_csv('cleaned_data/tournament_wins.csv')
-    elif pred == True:
-        pass
 
-    return full_teams
+        return full_teams
+
+    elif pred == True:
+        # raw_teams = raw_teams[raw_teams['Season'] == 2023]
+
+        return teams[teams['Season'] == 2023]
 
 def combining_data(cleaned_season_FF,cleaned_season_basic, cleaned_tourn_wins, pred):
     # join the two data tables

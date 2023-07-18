@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/christian.geer/internal-capstone/mlruns/0/b7397d56832d412fb76a0c66124fb9dc/artifacts
+end_time: 1688654742243
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b7397d56832d412fb76a0c66124fb9dc
+run_name: zealous-sponge-749
+run_uuid: b7397d56832d412fb76a0c66124fb9dc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1688654737978
+status: 3
+tags: []
+user_id: christian.geer

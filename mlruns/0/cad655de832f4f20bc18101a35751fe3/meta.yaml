@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/christian.geer/internal-capstone/mlruns/0/cad655de832f4f20bc18101a35751fe3/artifacts
+end_time: 1688654737705
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: cad655de832f4f20bc18101a35751fe3
+run_name: likeable-auk-196
+run_uuid: cad655de832f4f20bc18101a35751fe3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1688654733359
+status: 3
+tags: []
+user_id: christian.geer
